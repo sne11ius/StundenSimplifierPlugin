@@ -11,7 +11,7 @@ Configuration
 
 `startTime` the time to start each simplified day with in format `hh:mm'.
 
-Example: `"09:00`
+Example: `"09:00"`
 
 Build
 =====
