@@ -9,7 +9,7 @@ Plugin for https://github.com/sne11ius/stunden that simplifies each day so that:
 Configuration
 =============
 
-`startTime` the time to start each simplified day with in format `hh:mm'.
+`startTime` the time to start each simplified day with - in format `hh:mm'.
 
 Example: `"09:00"`
 
