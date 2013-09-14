@@ -35,7 +35,7 @@ public class StundenSimplifierPlugin implements ProcessPlugin {
 			throw new InvalidConfigurationException("Parameter `startTime' is required and must contain a start time like in `hh:mm'.");
 		}
 		LOG.debug("Merging entries...");
-		final WorkPeriod simplifiedWorkPeriod = new WorkPeriod(workPeriod.getBegin(), workPeriod.getEnd());
+		final WorkPeriod simplifiedWorkPeriod = new WorkPeriod();
 		for (final Day oldDay : workPeriod.getDays()) {
 			final List<Entry> simplifiedEntries = mergeEntries(oldDay.getEntries());
 			simplifiedWorkPeriod.getDays().add(new Day(oldDay.getDate(), simplifiedEntries));
@@ -63,7 +63,7 @@ public class StundenSimplifierPlugin implements ProcessPlugin {
 	
 	private WorkPeriod adjustStartTimes(final WorkPeriod workPeriod, final DateTime startTime) {
 		LOG.debug("Adjusting start times...");
-		final WorkPeriod result = new WorkPeriod(workPeriod.getBegin(), workPeriod.getEnd());
+		final WorkPeriod result = new WorkPeriod();
 		
 		for (final Day oldDay : workPeriod.getDays()) {
 			final List<Entry> adjustedEntries = new LinkedList<>();
