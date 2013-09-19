@@ -13,6 +13,7 @@ import nu.wasis.stunden.model.Entry;
 import nu.wasis.stunden.model.WorkPeriod;
 import nu.wasis.stunden.plugin.ProcessPlugin;
 import nu.wasis.stunden.plugins.simplifier.config.StundenSimplifierPluginConfiguration;
+import nu.wasis.stunden.plugins.simplifier.exception.ImpossibleSimplificationException;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -55,6 +56,9 @@ public class StundenSimplifierPlugin implements ProcessPlugin {
 				simplifiedEntries.put(simplifiedEntry.getProject().getName(), simplifiedEntry);
 			} else {
 				final DateTime newEnd = simplifiedEntry.getEnd().plus(oldEntry.getDuration());
+				if (oldEntry.isBreak() && !simplifiedEntry.isBreak()) {
+					throw new ImpossibleSimplificationException("Cannot simplify two entries of one is tagged as break while the other is not D:");
+				}
 				simplifiedEntry.setEnd(newEnd);
 			}
 		}
@@ -70,7 +74,7 @@ public class StundenSimplifierPlugin implements ProcessPlugin {
 			DateTime currentStartTime = startTime;
 			for (final Entry oldEntry : oldDay.getEntries()) {
 				final DateTime currentEndTime = currentStartTime.plus(oldEntry.getDuration());
-				adjustedEntries.add(new Entry(currentStartTime, currentEndTime, oldEntry.getProject()));
+				adjustedEntries.add(new Entry(currentStartTime, currentEndTime, oldEntry.getProject(), oldEntry.isBreak()));
 				currentStartTime = currentEndTime; 
 			}
 			result.getDays().add(new Day(oldDay.getDate(), adjustedEntries));
