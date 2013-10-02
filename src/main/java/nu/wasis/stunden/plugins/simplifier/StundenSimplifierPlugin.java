@@ -1,4 +1,4 @@
-package nu.wasis.stunden.plugins;
+package nu.wasis.stunden.plugins.simplifier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
